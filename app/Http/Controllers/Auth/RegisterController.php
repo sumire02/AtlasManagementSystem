@@ -51,6 +51,24 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
+
+     protected function validetor(arrya $data)
+     {
+         return Validetor::make($data, [
+             'over_name' => ['required', 'string', 'max:10'],
+             'under_name' => ['required', 'string', 'max:10'],
+             'over_name_kana' => ['required', 'string', 'max:30'],
+             'under_name_kana' => ['required', 'string', 'max:30'],
+             'mail_address' =>['required', 'string', 'email', 'max:100', 'unique:users,mail'],
+             'sex' => ['required', 'string',],
+             'old_year' => ['required', 'date', 'before:2000-01-01', 'after:today'],
+             'old_month' => ['required', 'date', 'before:2000-01-01', 'after:today'],
+             'old_day' => ['required', 'date', 'before:2000-01-01', 'after:today'],
+             'role' => ['required', 'string',],
+             'password' => ['required', 'string', 'min:8', 'max:30', 'confirmed:password'],
+         ]);
+
+     }
     public function registerView()
     {
         $subjects = Subjects::all();
@@ -59,7 +77,7 @@ class RegisterController extends Controller
 
     public function registerPost(Request $request)
     {
-        DB::beginTransaction();
+        // DB::beginTransaction();
         try{
             $old_year = $request->old_year;
             $old_month = $request->old_month;
@@ -79,12 +97,16 @@ class RegisterController extends Controller
                 'role' => $request->role,
                 'password' => bcrypt($request->password)
             ]);
-            $user = User::findOrFail($user_get->id);
+
+            $users= User::findOrFail($user_get->id);
+
+            if($request->role == 4){
             $user->subjects()->attach($subjects);
-            DB::commit();
+        }
+            // DB::commit();
             return view('auth.login.login');
         }catch(\Exception $e){
-            DB::rollback();
+            // DB::rollback();
             return redirect()->route('loginView');
         }
     }
