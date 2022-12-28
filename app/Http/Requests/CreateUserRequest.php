@@ -34,7 +34,7 @@ class CreateUserRequest extends FormRequest
              'old_month' => 'required|date|before:2000-01-01|after:today',
              'old_day' => 'required|date|efore:2000-01-01|after:today',
              'role' => 'required|string',
-             'password' => 'required|string|min:78|max:30|confirmed:password',
+             'password' => 'required|string|min:8|max:30|confirmed:password',
         ];
     }
 
