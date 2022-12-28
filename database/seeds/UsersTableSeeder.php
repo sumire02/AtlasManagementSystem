@@ -23,9 +23,6 @@ class UsersTableSeeder extends Seeder
                 'birth_day' =>'1990-01-01',
                 'role' =>1,
                 'password' =>bcrypt('password'),
-                'created_at' =>new DateTime(),
-                'updated_at' =>new DateTime(),
-                'deleted_at' =>new DateTime(),
             ],
             [
                 'over_name' =>'生徒',
@@ -37,9 +34,6 @@ class UsersTableSeeder extends Seeder
                 'birth_day' =>'2000-12-31',
                 'role' =>4,
                 'password' =>bcrypt('password'),
-                'created_at' =>new DateTime(),
-                'updated_at' =>new DateTime(),
-                'deleted_at' =>new DateTime(),
             ],
         ]);
 

@@ -16,19 +16,13 @@ class SubjectsTableSeeder extends Seeder
 
         DB::table('subjects')->insert([
             [
-            'id' =>'1',
             'Subject' =>'国語',
-            'created_at' =>date('Y-m-d H:i:s'),
             ],
             [
-            'id' =>'2',
             'Subject' =>'数学',
-            'created_at' =>date('Y-m-d H:i:s'),
             ],
             [
-            'id' =>'3',
             'Subject' =>'英語',
-            'created_at' =>date('Y-m-d H:i:s'),
             ],
         ]);
     }

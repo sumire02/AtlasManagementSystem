@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateUserRequest;
 use DB;
 
 use App\Models\Users\Subjects;
@@ -52,30 +53,13 @@ class RegisterController extends Controller
      * @return \App\User
      */
 
-     protected function validetor(arrya $data)
-     {
-         return Validetor::make($data, [
-             'over_name' => ['required', 'string', 'max:10'],
-             'under_name' => ['required', 'string', 'max:10'],
-             'over_name_kana' => ['required', 'string', 'max:30'],
-             'under_name_kana' => ['required', 'string', 'max:30'],
-             'mail_address' =>['required', 'string', 'email', 'max:100', 'unique:users,mail'],
-             'sex' => ['required', 'string',],
-             'old_year' => ['required', 'date', 'before:2000-01-01', 'after:today'],
-             'old_month' => ['required', 'date', 'before:2000-01-01', 'after:today'],
-             'old_day' => ['required', 'date', 'before:2000-01-01', 'after:today'],
-             'role' => ['required', 'string',],
-             'password' => ['required', 'string', 'min:8', 'max:30', 'confirmed:password'],
-         ]);
-
-     }
     public function registerView()
     {
         $subjects = Subjects::all();
         return view('auth.register.register', compact('subjects'));
     }
 
-    public function registerPost(Request $request)
+    public function registerPost(CreateUserRequest $request)
     {
         // DB::beginTransaction();
         try{
@@ -101,7 +85,7 @@ class RegisterController extends Controller
             $users= User::findOrFail($user_get->id);
 
             if($request->role == 4){
-            $user->subjects()->attach($subjects);
+            $users->subjects()->attach($subjects);
         }
             // DB::commit();
             return view('auth.login.login');
