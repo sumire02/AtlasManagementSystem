@@ -2,6 +2,12 @@
 @section('content')
 <div class="vh-100 d-flex">
   <div class="w-50 mt-5">
+    @if($errors->first('post_title'))
+   <p> <span class="error_message">{{ $errors->first('post_title') }}</span>
+    @endif</p>
+    @if($errors->first('post_body'))
+    <p><span class="error_message">{{ $errors->first('post_body') }}</span>
+    @endif</p>
     <div class="m-3 detail_container">
       <div class="p-3">
         <div class="detail_inner_head">
@@ -45,8 +51,11 @@
   <div class="w-50 p-3">
     <div class="comment_container border m-5">
       <div class="comment_area p-3">
+        @if($errors->first('comment'))
+      <span class="error_message">{{ $errors->first('comment') }}</span>
+      @endif
         <p class="m-0">コメントする</p>
-        <textarea class="w-100" name="comment" form="commentRequest"></textarea>
+        <textarea class="w-100" name="comment" form="commentRequest">{{ old('comment') }}</textarea>
         <input type="hidden" name="post_id" form="commentRequest" value="{{ $post->id }}">
         <input type="submit" class="btn btn-primary" form="commentRequest" value="投稿">
         <form action="{{ route('comment.create') }}" method="post" id="commentRequest">{{ csrf_field() }}</form>

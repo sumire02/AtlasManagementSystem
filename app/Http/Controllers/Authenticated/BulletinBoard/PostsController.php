@@ -11,6 +11,7 @@ use App\Models\Posts\PostComment;
 use App\Models\Posts\Like;
 use App\Models\Users\User;
 use App\Http\Requests\BulletinBoard\PostFormRequest;
+use App\Http\Requests\CommentForm;
 use Auth;
 
 class PostsController extends Controller
@@ -48,6 +49,7 @@ class PostsController extends Controller
         return view('authenticated.bulletinboard.post_create', compact('main_categories'));
     }
 
+    // 投稿内容
     public function postCreate(PostFormRequest $request){
         $post = Post::create([
             'user_id' => Auth::id(),
@@ -57,12 +59,13 @@ class PostsController extends Controller
         return redirect()->route('post.show');
     }
 
-    public function postEdit(Request $request){
+    // 投稿内容編集
+    public function postEdit(PostFormRequest $request){
         Post::where('id', $request->post_id)->update([
             'post_title' => $request->post_title,
             'post' => $request->post_body,
         ]);
-        return redirect()->route('post.detail', ['id' => $request->post_id]);
+        return viewredirect()->route('post.detail', ['id' => $request->post_id]);
     }
 
     public function postDelete($id){
@@ -74,7 +77,8 @@ class PostsController extends Controller
         return redirect()->route('post.input');
     }
 
-    public function commentCreate(Request $request){
+    // コメント投稿
+    public function commentCreate(CommentForm $request){
         PostComment::create([
             'post_id' => $request->post_id,
             'user_id' => Auth::id(),
