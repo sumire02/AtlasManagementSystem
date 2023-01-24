@@ -12,6 +12,7 @@ use App\Models\Posts\Like;
 use App\Models\Users\User;
 use App\Http\Requests\BulletinBoard\PostFormRequest;
 use App\Http\Requests\CommentForm;
+use App\Http\Requests\MainCategoryRequest;
 use Auth;
 
 class PostsController extends Controller
@@ -72,10 +73,22 @@ class PostsController extends Controller
         Post::findOrFail($id)->delete();
         return redirect()->route('post.show');
     }
-    public function mainCategoryCreate(Request $request){
+    public function mainCategoryCreate(MainCategoryRequest $request){
         MainCategory::create(['main_category' => $request->main_category_name]);
         return redirect()->route('post.input');
     }
+
+    // Subカテゴリー追加
+    public function subCategoryCreate(Request $request){
+    $main_category_id = $request->main_category_id;
+    $sub_category = $request->sub_category_name;
+    SubCategory::create([
+        'main_category_id' => $request->main_category_id,
+        'sub_category' => $request->sub_category_name
+    ]);
+    return redirect()->route('post.input');
+    }
+
 
     // コメント投稿
     public function commentCreate(CommentForm $request){

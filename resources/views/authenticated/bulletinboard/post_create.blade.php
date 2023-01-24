@@ -7,9 +7,12 @@
       <p class="mb-0">カテゴリー</p>
       <select class="w-100" form="postCreate" name="post_category_id">
         @foreach($main_categories as $main_category)
-        <optgroup label="{{ $main_category->main_category }}"></optgroup>
-        <!-- サブカテゴリー表示 -->
+        <optgroup label="{{ $main_category->main_category }}">
+          @foreach($main_category-> sub_categories as $sub_category)
+          <option>{{ $sub_category-> sub_category }}</option>
+          @endforeach
         </optgroup>
+        <!-- サブカテゴリー表示 -->
         @endforeach
       </select>
     </div>
@@ -30,17 +33,34 @@
     <form action="{{ route('post.create') }}" method="post" id="postCreate">{{ csrf_field() }}</form>
   </div>
   @can('admin')
+  @if(Auth::user()->role != 4)
   <div class="w-25 ml-auto mr-auto">
     <div class="category_area mt-5 p-5">
+      @if($errors->first('main_category_name'))
+      <span class="error_message">{{ $errors->first('main_category_name') }}</span>
+      @endif
       <div class="">
         <p class="m-0">メインカテゴリー</p>
         <input type="text" class="w-100" name="main_category_name" form="mainCategoryRequest">
         <input type="submit" value="追加" class="w-100 btn btn-primary p-0" form="mainCategoryRequest">
       </div>
-      <!-- サブカテゴリー追加 -->
       <form action="{{ route('main.category.create') }}" method="post" id="mainCategoryRequest">{{ csrf_field() }}</form>
+      <!-- サブカテゴリー追加中 -->
+            <div class="">
+        <p class="m-0">サブカテゴリー</p>
+        <select class="w-100" form="subCategoryCreate" name="main_category_id">
+          @foreach($main_categories as $main_category)
+        <option value="{{$main_category->id}}"> {{ $main_category->main_category }}</option>
+        @endforeach
+        </select>
+
+        <input type="text" class="w-100" name="sub_category_name" form="subCategoryCreate">
+        <input type="submit" value="追加" class="w-100 btn btn-primary p-0" form="subCategoryCreate">
+      </div>
+      <form action="{{ route('sub.category.create') }}" method="post" id="subCategoryCreate">{{ csrf_field() }}</form>
     </div>
   </div>
+  @endif
   @endcan
 </div>
 @endsection
