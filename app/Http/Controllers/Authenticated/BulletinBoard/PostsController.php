@@ -55,8 +55,9 @@ class PostsController extends Controller
         $post = Post::create([
             'user_id' => Auth::id(),
             'post_title' => $request->post_title,
-            'post' => $request->post_body
+            'post' => $request->post_body,
         ]);
+        $post_sub_categories = $request->post_id;
         return redirect()->route('post.show');
     }
 
