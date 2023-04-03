@@ -57,7 +57,6 @@ class PostsController extends Controller
             'post_title' => $request->post_title,
             'post' => $request->post_body,
         ]);
-        $post_sub_categories = $request->post_id;
         return redirect()->route('post.show');
     }
 

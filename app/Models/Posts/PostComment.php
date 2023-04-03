@@ -18,7 +18,7 @@ class PostComment extends Model
     ];
 
     public function post(){
-        return $this->belongsTo('App\Models\Posts\Post', 'user_id', 'post_title', 'post',);
+        return $this->belongsTo('App\Models\Posts\Post');
     }
 
     public function commentUser($user_id){

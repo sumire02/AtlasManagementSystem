@@ -20,7 +20,7 @@ class Post extends Model
     }
 
     public function postComments(){
-        return $this->hasMany('App\Models\Posts\PostComment', 'post_id', 'user_id', 'comment');
+        return $this->hasMany('App\Models\Posts\PostComment');
     }
 
     public function subCategories(){
